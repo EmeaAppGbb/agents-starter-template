@@ -10,4 +10,32 @@
     <ProjectReference Include="..\Agents.ServiceDefaults\Agents.ServiceDefaults.csproj" />
   </ItemGroup>
 
+   <ItemGroup>
+
+    <PackageReference Include="Microsoft.SemanticKernel" Version="1.12.0" />
+    <PackageReference Include="Microsoft.SemanticKernel.Connectors.Qdrant" Version="1.12.0-alpha" />
+    <PackageReference Include="Microsoft.SemanticKernel.Plugins.Memory" Version="1.12.0-alpha" />
+
+    <PackageReference Include="Microsoft.Orleans.Server" Version="8.1.0" />
+    <PackageReference Include="Microsoft.Orleans.Sdk" Version="8.1.0" />
+    <PackageReference Include="Microsoft.Orleans.Runtime" Version="8.1.0" />
+    <PackageReference Include="Microsoft.Orleans.Persistence.Cosmos" Version="8.1.0" />
+    <PackageReference Include="Microsoft.Orleans.Clustering.Cosmos" Version="8.1.0" />
+    <PackageReference Include="Microsoft.Orleans.Reminders.Cosmos" Version="8.1.0" />
+    <PackageReference Include="Microsoft.Orleans.Streaming.EventHubs" Version="8.1.0" />
+    <PackageReference Include="Microsoft.Orleans.Reminders" Version="8.1.0" />
+    <PackageReference Include="Microsoft.Orleans.Streaming" Version="8.1.0" />
+    <PackageReference Include="OrleansDashboard" Version="8.0.0" />
+
+
+    <PackageReference Include="Microsoft.Extensions.Azure" Version="1.7.3" />
+    <PackageReference Include="Microsoft.Extensions.Http.Resilience" Version="9.0.0-preview.3.24209.3" />
+    <PackageReference Include="Azure.Identity" Version="1.12.0-beta.1" />
+
+    <PackageReference Include="ProjectOagents.Core" Version="0.0.1-alpha" />
+    <PackageReference Include="ProjectOagents.Orleans" Version="0.0.1-alpha" />
+    
+    
+  </ItemGroup>
+
 </Project>

@@ -1,0 +1,28 @@
+# Remove the line below if you want to inherit .editorconfig settings from higher directories
+root = true
+
+# C# files
+[*.cs]
+
+#### Core EditorConfig Options ####
+
+# Indentation and spacing
+indent_size = 4
+indent_style = space
+tab_width = 4
+
+#### .NET Coding Conventions ####
+
+# this. and Me. preferences
+dotnet_style_qualification_for_method = true
+
+#### Diagnostic configuration ####
+
+# SKEXP0001: Warning: SK Core is experimental
+dotnet_diagnostic.SKEXP0001.severity = none
+# SKEXP0020: Warning: SK Memory connectors are experimental
+dotnet_diagnostic.SKEXP0020.severity = none
+# SKEXP0010: Warning: SK OpenAI is experimental
+dotnet_diagnostic.SKEXP0010.severity = none
+# CA2007: Consider calling ConfigureAwait on the awaited task
+dotnet_diagnostic.CA2007.severity = none
