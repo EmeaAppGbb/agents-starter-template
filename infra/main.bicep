@@ -43,16 +43,6 @@ module monitoring './shared/monitoring.bicep' = {
   scope: rg
 }
 
-module dashboard './shared/dashboard-web.bicep' = {
-  name: 'dashboard'
-  params: {
-    name: '${abbrs.portalDashboards}${resourceToken}'
-    applicationInsightsName: monitoring.outputs.applicationInsightsName
-    location: location
-    tags: tags
-  }
-  scope: rg
-}
 
 module registry './shared/registry.bicep' = {
   name: 'registry'
@@ -60,17 +50,6 @@ module registry './shared/registry.bicep' = {
     location: location
     tags: tags
     name: '${abbrs.containerRegistryRegistries}${resourceToken}'
-  }
-  scope: rg
-}
-
-module keyVault './shared/keyvault.bicep' = {
-  name: 'keyvault'
-  params: {
-    location: location
-    tags: tags
-    name: '${abbrs.keyVaultVaults}${resourceToken}'
-    principalId: principalId
   }
   scope: rg
 }
@@ -126,5 +105,3 @@ module frontend './app/frontend.bicep' = {
 }
 
 output AZURE_CONTAINER_REGISTRY_ENDPOINT string = registry.outputs.loginServer
-output AZURE_KEY_VAULT_NAME string = keyVault.outputs.name
-output AZURE_KEY_VAULT_ENDPOINT string = keyVault.outputs.endpoint

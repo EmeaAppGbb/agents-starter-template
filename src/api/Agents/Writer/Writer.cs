@@ -12,7 +12,9 @@ public class Writer : AiAgent<WriterState>
     
     private readonly ILogger<Writer> _logger;
 
-    public Writer([PersistentState("state", "messages")] IPersistentState<AgentState<WriterState>> state, Kernel kernel, ISemanticTextMemory memory, ILogger<Writer> logger) 
+    public Writer([PersistentState("state", "messages")] IPersistentState<AgentState<WriterState>> state, 
+    [FromKeyedServices("AzureOpenAI")] Kernel kernel, 
+    [FromKeyedServices("QdrantMemory")] ISemanticTextMemory memory, ILogger<Writer> logger) 
     : base(state, memory, kernel)
     {
         _logger = logger;
