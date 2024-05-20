@@ -6,7 +6,7 @@ using Microsoft.SemanticKernel.Memory;
 using Orleans.Runtime;
 
 [ImplicitStreamSubscription(Consts.OrleansNamespace)]
-public class Writer : AiAgent<WriterState>, IWriter
+public class Writer : AiAgent<WriterState>
 {
     protected override string Namespace => Consts.OrleansNamespace;
     
@@ -22,18 +22,6 @@ public class Writer : AiAgent<WriterState>, IWriter
     {
         switch (item.Type)
         {
-            case nameof(EventTypes.UserConnected):
-                // The user reconnected, let's send the last message if we have one
-                string lastMessage = _state.State.History.LastOrDefault()?.Message;
-                if (lastMessage == null)
-                {
-                    return;
-                }
-
-                await SendDesignedCreatedEvent(lastMessage, item.Data["UserId"]);
-
-                break;
-
             case nameof(EventTypes.UserChatInput):                
                 {
                     var userMessage = item.Data["userMessage"]; 
@@ -41,8 +29,14 @@ public class Writer : AiAgent<WriterState>, IWriter
                 
                     var context = new KernelArguments { ["input"] = AppendChatHistory(userMessage) };
                     string newArticle = await CallFunction(WriterPrompts.Write, context);
-
-                    await SendDesignedCreatedEvent(newArticle, item.Data["UserId"]);
+                    await PublishEvent(Consts.OrleansNamespace, this.GetPrimaryKeyString(), new Event
+                    {
+                        Type = nameof(EventTypes.ArticleCreated),
+                        Data = new Dictionary<string, string> {
+                                        { "UserId", item.Data["UserId"] },
+                                        { "article", newArticle },
+                                    }
+                    });
                     break;   
                 }
                 
@@ -50,26 +44,4 @@ public class Writer : AiAgent<WriterState>, IWriter
                 break;
         }
     }
-
-    private async Task SendDesignedCreatedEvent(string article, string userId)
-    {
-        await PublishEvent(Consts.OrleansNamespace, this.GetPrimaryKeyString(), new Event
-        {
-            Type = nameof(EventTypes.ArticleCreated),
-            Data = new Dictionary<string, string> {
-                            { "UserId", userId },
-                            { nameof(article), article },
-                        }
-        });
-    }
-
-     public Task<string> GetArticle()
-    {
-        return Task.FromResult(_state.State.Data.WrittenArticle);
-    }
-}
-
-public interface IWriter : IGrainWithStringKey
-{
-    Task<string> GetArticle();
 }
